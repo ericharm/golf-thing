@@ -1,62 +1,54 @@
+from entities.cursor import Cursor
+from entities.golfer import Golfer
+
 import pygame
 from pygame.locals import *
 
-pygame.init()
-vec = pygame.math.Vector2  # 2 for two dimensional
-
+# move this into a yaml file
 HEIGHT = 450
 WIDTH = 400
 ACC = 0.5
 FRIC = -0.12
 FPS = 60
 
-FramePerSec = pygame.time.Clock()
-
-displaysurface = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Game")
-
-
-class Entity:
+class App:
     def __init__(self):
-        self.position = (0, 0)
-        self.size = (0, 0)
-        self.surface = pygame.Surface(self.size)
-        self.rect = self.surface.get_rect(center = (self.position))
+        pygame.init()
+        vec = pygame.math.Vector2  # 2 for two dimensional
+        self.ticker = pygame.time.Clock()
+        self.displaysurface = pygame.display.set_mode((WIDTH, HEIGHT))
+        pygame.display.set_caption("Game")
+        cursor = Cursor((0, 0), (10, 10))
+        golfer = Golfer((150, 150), (10, 10))
+        self.entites = [cursor, golfer]
+        pygame.mouse.set_visible(False)
+
+    def draw(self):
+        self.displaysurface.fill((0,0,0))
+
+        for entity in self.entites:
+            entity.draw(self.displaysurface)
+
+        pygame.display.update()
 
     def update(self):
-        return True
+        for entity in self.entites:
+            entity.update()
+        self.ticker.tick(FPS)
 
-    def draw(self, displaysurface):
-        displaysurface.blit(self.surface, self.rect)
 
-class Cursor (Entity):
-    def __init__(self):
-        super().__init__()
-        self.size = (10, 10)
-        self.color = (240, 0, 240)
-        self.surface = pygame.Surface(self.size)
-        self.surface.fill(self.color)
+    def handle_input(self):
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
 
-    def update(self):
-        mouse_pos = pygame.mouse.get_pos()
-        self.rect = self.surface.get_rect(center = (mouse_pos[0], mouse_pos[1])) # x, y
+    def run(self):
+        while True:
+            self.handle_input()
+            self.update()
+            self.draw()
 
-cursor = Cursor()
-entites = [cursor]
-pygame.mouse.set_visible(False)
 
-run = True
-while run:
-    for event in pygame.event.get():
-        if event.type == QUIT:
-            pygame.quit()
-            sys.exit()
-
-    displaysurface.fill((0,0,0))
-
-    for entity in entites:
-        entity.update()
-        entity.draw(displaysurface)
-
-    pygame.display.update()
-    FramePerSec.tick(FPS)
+app = App()
+app.run()
