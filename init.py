@@ -42,6 +42,9 @@ class App:
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
+        keys = pygame.key.get_pressed()
+        for entity in self.entites:
+            entity.handle_input(keys)
 
     def run(self):
         while True:

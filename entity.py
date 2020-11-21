@@ -10,6 +10,9 @@ class Entity:
     def set_color(self):
         return True
 
+    def handle_input(self, keys):
+        return True
+
     def update(self):
         return True
 
