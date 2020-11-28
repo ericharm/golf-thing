@@ -16,5 +16,5 @@ class Entity:
     def update(self):
         return True
 
-    def draw(self, displaysurface):
-        displaysurface.blit(self.surface, self.surface.get_rect(center = (self.position)))
+    def draw(self, screen):
+        screen.blit(self.surface, self.surface.get_rect(center = (self.position)))

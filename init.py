@@ -1,12 +1,13 @@
 from entities.cursor import Cursor
 from entities.golfer import Golfer
-
+from entities.flag import Flag
+import sys
 import pygame
 from pygame.locals import *
 
 # move this into a yaml file
-HEIGHT = 450
-WIDTH = 400
+HEIGHT = 600
+WIDTH = 800
 ACC = 0.5
 FRIC = -0.12
 FPS = 60
@@ -16,18 +17,19 @@ class App:
         pygame.init()
         vec = pygame.math.Vector2  # 2 for two dimensional
         self.ticker = pygame.time.Clock()
-        self.displaysurface = pygame.display.set_mode((WIDTH, HEIGHT))
-        pygame.display.set_caption("Game")
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
+        pygame.display.set_caption("Golf")
+        flag = Flag((450, 300), (2, 2))
         cursor = Cursor((0, 0), (10, 10))
-        golfer = Golfer((150, 150), (10, 10))
-        self.entites = [cursor, golfer]
+        golfer = Golfer((250, 250), (10, 10))
+        self.entites = [cursor, golfer, flag]
         pygame.mouse.set_visible(False)
 
     def draw(self):
-        self.displaysurface.fill((0,0,0))
+        self.screen.fill((0,0,0))
 
         for entity in self.entites:
-            entity.draw(self.displaysurface)
+            entity.draw(self.screen)
 
         pygame.display.update()
 
@@ -42,9 +44,12 @@ class App:
             if event.type == QUIT:
                 pygame.quit()
                 sys.exit()
-        keys = pygame.key.get_pressed()
-        for entity in self.entites:
-            entity.handle_input(keys)
+            else:
+                for entity in self.entites:
+                    entity.handle_input(event)
+        # keys = pygame.key.get_pressed()
+        # for entity in self.entites:
+        #     entity.handle_input(keys)
 
     def run(self):
         while True:
