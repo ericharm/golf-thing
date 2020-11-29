@@ -21,25 +21,24 @@ class Golfer (Entity):
         mouse_pos = pygame.mouse.get_pos()
         self.ball_path = BallPath(Point(self.position[0], self.position[1]), Point(mouse_pos[0], mouse_pos[1]))
 
-    def handle_input(self, event):
+    def handle_input_event(self, event):
         if event.type == MOUSEBUTTONDOWN and event.button == 1:
             self.swing()
 
+    def handle_realtime_input(self, keys):
+        if keys[K_LEFT]:
+            self.stroke_radius.update_target(-1)
+        if keys[K_RIGHT]:
+            self.stroke_radius.update_target(1)
+
     def update(self):
         self.stroke_radius.update(self)
+        if (self.ball_path != None):
+            self.ball_path.update()
 
     def draw(self, screen):
         super().draw(screen)
         self.stroke_radius.draw(screen)
-        # pygame.draw.line(screen, (100, 100, 100), self.position, pygame.mouse.get_pos())
-
-        mouse_pos = pygame.mouse.get_pos()
-        left = self.position[0] if mouse_pos[0] > self.position[0] else mouse_pos[0]
-        top = self.position[1] if mouse_pos[1] > self.position[1] else mouse_pos[1]
-        width = abs(self.position[0] - mouse_pos[0])
-        height = abs(self.position[1] - mouse_pos[1])
-        rect = Rect(left, top, width, height)
-        pygame.draw.rect(screen, (100, 100, 100), rect, 1)
 
         if (self.ball_path != None):
             self.ball_path.draw(screen)
@@ -85,12 +84,14 @@ class Point():
         self.y = y
 
 class BallPath():
+    # currently draws 1 bezier, but should draw a series of them to account for bounces
     def __init__(self, start, end):
+        self.point_count = 50
         mid_x = (end.x - start.x) / 2 + start.x
         mid_y = (end.y - start.y) / 2
         nodes = [[start.x, mid_x, end.x], [start.y, mid_y, end.y]]
         curve = Curve(nodes, 2)
-        point_intervals = numpy.linspace(0.0, 1.0, 50)
+        point_intervals = numpy.linspace(0.0, 1.0, self.point_count)
         points = curve.evaluate_multi(point_intervals)
         self.points = []
 
@@ -100,5 +101,9 @@ class BallPath():
         self.selected = None
         self.current_point = 2
 
+    def update(self):
+        if (self.current_point < self.point_count):
+            self.current_point += 1
+
     def draw(self, screen):
-        pygame.draw.lines(screen, pygame.Color("red"), False, [(p[0], p[1]) for p in self.points])
+        pygame.draw.lines(screen, pygame.Color("cyan"), False, [(p[0], p[1]) for p in self.points[0:self.current_point]])

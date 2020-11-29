@@ -46,10 +46,10 @@ class App:
                 sys.exit()
             else:
                 for entity in self.entites:
-                    entity.handle_input(event)
-        # keys = pygame.key.get_pressed()
-        # for entity in self.entites:
-        #     entity.handle_input(keys)
+                    entity.handle_input_event(event)
+        keys = pygame.key.get_pressed()
+        for entity in self.entites:
+            entity.handle_realtime_input(keys)
 
     def run(self):
         while True:
