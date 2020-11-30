@@ -1,6 +1,7 @@
 from entities.cursor import Cursor
 from entities.golfer import Golfer
 from entities.flag import Flag
+from entities.swing_meter import SwingMeter
 import sys
 import pygame
 from pygame.locals import *
@@ -22,7 +23,8 @@ class App:
         flag = Flag((450, 300), (2, 2))
         cursor = Cursor((0, 0), (10, 10))
         golfer = Golfer((250, 250), (10, 10))
-        self.entites = [cursor, golfer, flag]
+        swing_meter = SwingMeter((300, 400), (100, 10))
+        self.entites = [cursor, golfer, flag, swing_meter]
         pygame.mouse.set_visible(False)
 
     def draw(self):

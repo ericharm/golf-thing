@@ -4,6 +4,7 @@ from pygame.locals import *
 class Entity:
     def __init__(self, position, size):
         self.position = position
+        self.size = size
         self.surface = pygame.Surface(size)
         self.set_color()
 
@@ -20,4 +21,5 @@ class Entity:
         return True
 
     def draw(self, screen):
-        screen.blit(self.surface, self.surface.get_rect(center = (self.position)))
+        pygame.draw.rect(screen, self.color, [self.position[0], self.position[1], self.size[0], self.size[1]])
+        # screen.blit(self.surface, self.surface.get_rect(center = (self.position)))
