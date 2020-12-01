@@ -1,6 +1,6 @@
-from entity import Entity
 import pygame
 from pygame.locals import *
+from src.entity import Entity
 
 class Cursor (Entity):
     def __init__(self, position, size):

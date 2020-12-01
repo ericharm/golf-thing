@@ -1,8 +1,7 @@
-from entity import Entity
-
 import pygame
 from pygame.locals import *
 from enum import Enum
+from src.entity import Entity
 
 class ChargeDirection (Enum):
     Up = 1
@@ -10,11 +9,13 @@ class ChargeDirection (Enum):
 
 class SwingMeter (Entity):
     MAX_POWER = 100
+    MIN_ACCURACY = -10
+    MAX_ACCURACY = 10
 
     def __init__(self, position, size):
         super().__init__(position, size)
         self.power = 0
-        self.accuracy = 0
+        self.accuracy = -10
         self.powering = False
         self.aiming = False
         self.charge_direction = ChargeDirection.Up
@@ -30,10 +31,14 @@ class SwingMeter (Entity):
         self.powering = False
         self.aiming = True
 
-    def handle_input_event(self, event):
-        if event.type == MOUSEBUTTONDOWN and event.button == 1 and not self.aiming:
+    def handle_click(self):
+        if self.aiming:
+            self.aiming = False
+        else:
             self.charge()
-        elif event.type == MOUSEBUTTONUP and event.button == 1 and self.powering:
+
+    def handle_unclick(self):
+        if self.powering:
             self.aim()
 
     def update(self):
@@ -44,7 +49,6 @@ class SwingMeter (Entity):
                 self.charge_direction = ChargeDirection.Down
                 self.power -= 1
             else:
-                # the player misses the swing entirely
                 self.powering = False
                 self.aiming = False
 

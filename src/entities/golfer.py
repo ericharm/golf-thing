@@ -1,11 +1,16 @@
-from entity import Entity
 import math
-
-from bezier.curve import Curve
 import numpy
-
+from bezier.curve import Curve
 import pygame
 from pygame.locals import *
+from src.entity import Entity
+from src.keys import Keys
+
+# move this way up the chain and stop using tuples for x/y
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
 class Golfer (Entity):
     def __init__(self, position, size):
@@ -21,14 +26,10 @@ class Golfer (Entity):
         mouse_pos = pygame.mouse.get_pos()
         self.ball_path = BallPath(Point(self.position[0], self.position[1]), Point(mouse_pos[0], mouse_pos[1]))
 
-    def handle_input_event(self, event):
-        if event.type == MOUSEBUTTONDOWN and event.button == 1:
-            self.swing()
-
-    def handle_realtime_input(self, keys):
-        if keys[K_LEFT]:
+    def handle_keypress(self, key):
+        if key == Keys.Left:
             self.stroke_radius.update_target(-1)
-        if keys[K_RIGHT]:
+        if key == Keys.Right:
             self.stroke_radius.update_target(1)
 
     def update(self):
@@ -78,12 +79,7 @@ class StrokeRadius:
         pygame.draw.circle(screen, self.color, self.position, self.magnitude, 1)
         self.target.draw(screen)
 
-class Point():
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-
-class BallPath():
+class BallPath:
     # currently draws 1 bezier, but should draw a series of them to account for bounces
     def __init__(self, start, end):
         self.point_count = 50
