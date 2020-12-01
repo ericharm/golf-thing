@@ -6,7 +6,6 @@ import pygame
 from pygame.locals import *
 
 class Player:
-
     def handle_realtime_input(self, keys):
         if keys[K_LEFT]:
             Command.dispatch(Command(Golfer, lambda golfer: golfer.handle_keypress(Keys.Left)))

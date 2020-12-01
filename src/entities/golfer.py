@@ -24,7 +24,7 @@ class Golfer (Entity):
 
     def swing(self):
         mouse_pos = pygame.mouse.get_pos()
-        self.ball_path = BallPath(Point(self.position[0], self.position[1]), Point(mouse_pos[0], mouse_pos[1]))
+        self.ball_path = BallPath(Point(self.position.x, self.position.y), Point(mouse_pos[0], mouse_pos[1]))
 
     def handle_keypress(self, key):
         if key == Keys.Left:
@@ -58,8 +58,8 @@ class StrokeTarget:
     def draw(self, screen):
         position = self.stroke_radius.position
         size = self.stroke_radius.magnitude
-        x = size * math.cos(self.target * math.pi / 180) + position[0]
-        y = size * math.sin(self.target * math.pi / 180) + position[1]
+        x = size * math.cos(self.target * math.pi / 180) + position.x
+        y = size * math.sin(self.target * math.pi / 180) + position.y
         pygame.draw.circle(screen, self.color, (x, y), self.radius, 1)
 
 class StrokeRadius:

@@ -57,8 +57,7 @@ class SwingMeter (Entity):
 
     def draw(self, screen):
         super().draw(screen)
-        top = self.position[1]
-        power_left = self.position[0] + self.size[0] - self.power
-        power_meter = [power_left, top, self.power, self.size[1]]
+        power_left = self.position.x + self.size.x - self.power
+        power_meter = [power_left, self.position.y, self.power, self.size.y]
         pygame.draw.rect(screen, (220, 220, 220), power_meter)
 

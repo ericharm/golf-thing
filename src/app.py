@@ -8,7 +8,6 @@ from src.player import Player
 class App:
     def __init__(self):
         pygame.init()
-        vec = pygame.math.Vector2  # 2 for two dimensional
         self.ticker = pygame.time.Clock()
         self.screen = pygame.display.set_mode((Config.WIDTH, Config.HEIGHT))
         self.game = Game()

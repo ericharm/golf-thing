@@ -28,7 +28,7 @@ class Entity:
             child.update()
 
     def draw(self, screen):
-        pygame.draw.rect(screen, self.color, [self.position[0], self.position[1], self.size[0], self.size[1]])
+        pygame.draw.rect(screen, self.color, [self.position.x, self.position.y, self.size.x, self.size.y])
         for child in self.children:
             child.draw(screen)
 
