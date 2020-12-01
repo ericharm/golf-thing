@@ -15,7 +15,6 @@ class Player:
 
     def handle_input_event(self, event):
         if event.type == MOUSEBUTTONDOWN and event.button == 1:
-            Command.dispatch(Command(Golfer, lambda golfer: golfer.swing()))
             Command.dispatch(Command(SwingMeter, lambda meter: meter.handle_click()))
         elif event.type == MOUSEBUTTONUP and event.button == 1:
             Command.dispatch(Command(SwingMeter, lambda meter: meter.handle_unclick()))

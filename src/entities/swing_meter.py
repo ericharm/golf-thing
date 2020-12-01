@@ -2,6 +2,8 @@ import pygame
 from pygame.locals import *
 from enum import Enum
 from src.entity import Entity
+from src.entities.golfer import Golfer
+from src.command import Command
 
 class ChargeDirection (Enum):
     Up = 1
@@ -29,7 +31,8 @@ class SwingMeter (Entity):
 
     def aim(self):
         self.powering = False
-        self.aiming = True
+        # self.aiming = True
+        Command.dispatch(Command(Golfer, lambda golfer: golfer.swing()))
 
     def handle_click(self):
         if self.aiming:
