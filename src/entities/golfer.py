@@ -5,12 +5,20 @@ import pygame
 from pygame.locals import *
 from src.entity import Entity
 from src.keys import Keys
+from src.club import Club
+from src.command import Command
+from src.category import Category
+from src.entities.ball import Ball
 from pygame.math import Vector2
 
 class Golfer (Entity):
     def __init__(self, position, size):
         super().__init__(position, size)
+        self.ball = Ball(self.position, (2, 2))
+        self.append_child(self.ball)
+        self.categories = { Category.Entity, Category.Golfer }
         self.stroke_radius = StrokeRadius()
+        self.club = Club.Driver
 
     def set_color(self):
         self.color = (80, 240, 80)
@@ -22,7 +30,11 @@ class Golfer (Entity):
         if key == Keys.Right:
             self.stroke_radius.update_target(1)
 
+    def swing(self, power, accuracy):
+        self.ball.apply_force(power, accuracy, self.club)
+
     def update(self):
+        super().update()
         self.stroke_radius.update(self)
 
     def draw(self, screen):

@@ -5,7 +5,7 @@ class Command:
 
     @classmethod
     def dispatch(self, command):
-        Command.queue.put(command)
+        return Command.queue.put(command)
 
     @classmethod
     def get_next(self):

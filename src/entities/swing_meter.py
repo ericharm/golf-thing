@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 from enum import Enum
 from src.entity import Entity
-from src.entities.ball import Ball
+from src.category import Category
 from src.command import Command
 
 class ChargeDirection (Enum):
@@ -16,6 +16,7 @@ class SwingMeter (Entity):
 
     def __init__(self, position, size):
         super().__init__(position, size)
+        self.categories = { Category.Entity, Category.SwingMeter }
         self.power = 0
         self.accuracy = SwingMeter.MIN_ACCURACY
         self.powering = False
@@ -32,7 +33,7 @@ class SwingMeter (Entity):
     def aim(self):
         self.powering = False
         # self.aiming = True
-        Command.dispatch(Command(Ball, lambda ball: ball.apply_force(self.power, self.accuracy)))
+        Command.dispatch(Command(Category.Golfer, lambda golfer: golfer.swing(self.power, self.accuracy)))
         self.reset()
 
     def reset(self):

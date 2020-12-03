@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+from src.category import Category
 
 class Entity:
     def __init__(self, position, size):
@@ -7,18 +8,22 @@ class Entity:
         self.size = size
         self.surface = pygame.Surface(size)
         self.set_color()
+        self.categories = { Category.Entity }
         self.children = []
         self.parent = None
 
     def set_color(self):
         self.color = (0, 0, 0)
 
+    def set_position(self, position):
+        self.position = position
+
     def append_child(self, entity):
         self.children.append(entity)
         entity.parent = self
 
     def on_command(self, command):
-        if (command.category == type(self)):
+        if (len(self.categories.intersection({ command.category }))):
             (command.action)(self)
         for child in self.children:
             child.on_command(command)
