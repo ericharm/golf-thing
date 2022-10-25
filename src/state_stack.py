@@ -1,20 +1,24 @@
+from typing import List, Optional
+from src.state import State
+
+
 class StateStack:
-    stack = []
+    stack: List[State] = []
 
     @classmethod
-    def push(self, state):
-        return StateStack.stack.append(state)
+    def push(cls, state: State) -> None:
+        StateStack.stack.append(state)
 
     @classmethod
-    def pop(self):
-        return StateStack.stack.pop(state)
+    def pop(cls) -> Optional[State]:
+        return StateStack.stack.pop()
 
     @classmethod
-    def peek(self):
+    def peek(cls) -> Optional[State]:
         return StateStack.stack[-1] if len(StateStack.stack) else None
 
     @classmethod
-    def swap(self, state):
-        if (len(StateStack.stack)):
+    def swap(cls, state: State) -> None:
+        if len(StateStack.stack):
             StateStack.pop()
-        StateStack.push(stack)
+        StateStack.push(state)
