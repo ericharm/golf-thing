@@ -3,7 +3,8 @@ from pygame.locals import *
 from src.entity import Entity
 from pygame.math import Vector2
 
-class Cursor (Entity):
+
+class Cursor(Entity):
     def __init__(self, position, size):
         super().__init__(position, size)
 

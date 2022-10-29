@@ -7,3 +7,5 @@
 `BEZIER_NO_EXTENSION=true python -m pip install --upgrade bezier --no-binary=bezier`
 
 `poetry install`
+
+`python init.py`

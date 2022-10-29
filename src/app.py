@@ -6,6 +6,7 @@ from src.config import Config
 from src.game import Game
 from src.state_stack import StateStack
 
+
 class App:
     def __init__(self) -> None:
         pygame.init()
@@ -43,5 +44,3 @@ class App:
             self.handle_input()
             self.update()
             self.draw()
-
-

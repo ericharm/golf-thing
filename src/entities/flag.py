@@ -1,12 +1,12 @@
 import pygame
-from pygame.locals import *
+from pygame.math import Vector2
+from pygame.surface import Surface
 from src.entity import Entity
-# vec = pygame.math.Vector2
 
-class Flag (Entity):
 
-    def draw(self, screen):
-        pole_top = (self.position.x, self.position.y - 40)
+class Flag(Entity):
+    def draw(self, screen: Surface) -> None:
+        pole_top = Vector2(self.position.x, self.position.y - 40)
         triangle = [
             [self.position.x, self.position.y - 40],
             [self.position.x, self.position.y - 30],
